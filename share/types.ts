@@ -6,10 +6,13 @@ export interface ServerToClientEvents {
     noBet: () => void;
     newBet: (bet: number, userId: string, amount: number, avatar: string) => void;
     pong: () => void;
+    error: (message: string) => void;
+    mappingBet: (mapping: { [key: string]: number }) => void;
 }
 
 export interface ClientToServerEvents {
     hello: () => void;
+    roll: (token:string) => void;
 }
 
 export interface InterServerEvents {

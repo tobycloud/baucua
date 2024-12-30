@@ -15,6 +15,8 @@ export interface IDefaultData {
     user: {
         [id: string]: {
             balance: number
+            avatar: string
+            username: string
         }
     }
     bet: {
@@ -42,13 +44,15 @@ export class Database {
             this.db.write()
         })
     }
-    async setBet(key: keyof typeof Bets, id: string, amount: number) {
+    async setBet(key: keyof typeof Bets, id: string, amount: number, avatar: string, username: string) {
         this.db.data.bet[key].users[id] = {
             amount
         }
         if (!this.db.data.user[id]) {
             this.db.data.user[id] = {
-                balance: 5
+                balance: 5,
+                avatar,
+                username
             }
         }
         this.db.data.user[id].balance -= amount
@@ -107,10 +111,12 @@ export class Database {
         }
         return true
     }
-    async createUser(id: string) {
+    async createUser(id: string, avatar: string, username: string) {
         if (!this.db.data.user[id]) {
             this.db.data.user[id] = {
-                balance: 5
+                balance: 5,
+                avatar,
+                username
             }
             await this.db.write()
         }
